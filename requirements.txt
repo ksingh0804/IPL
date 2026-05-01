@@ -1,0 +1,9 @@
+notebook
+nbconvert
+ipykernel
+pandas
+numpy
+matplotlib
+seaborn
+scipy
+git+https://github.com/AllenDowney/ThinkStats2.git
