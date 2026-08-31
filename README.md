@@ -20,3 +20,11 @@ Then open `http://127.0.0.1:8888/tree` and launch `IPL.ipynb`.
 `scripts/bootstrap_legacy_data.py` restores the missing companion
 `Deliveries.csv` file and the legacy ThinkStats helper modules used by the
 notebook.
+
+## Code review prompt
+
+Use `prompts/pro-code-review.md` (or the Cursor skill
+`.cursor/skills/pro-code-review`) to review changes the way a staff
+engineer would: correctness first, then memory and resource leaks,
+security, concurrency, and the rest. The prompt is written to be pasted
+into Cursor or another model with a diff or file list.

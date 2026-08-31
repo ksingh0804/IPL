@@ -13,6 +13,8 @@ Use this skill when you need to run, test, or update the IPL analysis project in
 - `Match.csv`: Checked-in match-level dataset used by the notebook.
 - `Presentation.pdf`: Project write-up/output reference.
 - `README.md`: Short project summary.
+- `prompts/pro-code-review.md`: Staff-level code review prompt (leaks, security, correctness).
+- `.cursor/skills/pro-code-review/SKILL.md`: Cursor skill that applies that prompt.
 
 There is no web app, backend service, auth flow, or feature-flag system in this repository today. Do not spend time looking for logins, `.env` files, or flag toggles unless new application code is added.
 
@@ -63,8 +65,19 @@ There is no web app, backend service, auth flow, or feature-flag system in this 
 ### Docs testing
 
 - Confirm referenced files exist:
-  - `python3 - <<'PY'\nfrom pathlib import Path\nfor path in ['README.md', 'IPL.ipynb', 'Match.csv', 'Presentation.pdf']:\n    print(path, Path(path).exists())\nPY`
+  - `python3 - <<'PY'\nfrom pathlib import Path\nfor path in ['README.md', 'IPL.ipynb', 'Match.csv', 'Presentation.pdf', 'prompts/pro-code-review.md']:\n    print(path, Path(path).exists())\nPY`
 - If commands are documented in this skill, run the smallest relevant command and record whether missing dependencies or missing data are expected.
+
+## Code review workflow
+
+1. Read `.cursor/skills/pro-code-review/SKILL.md` and `prompts/pro-code-review.md`.
+2. Review the current diff (or the named files) in this order: correctness, leaks, security, concurrency, errors, tests.
+3. For this repo, always inspect `scripts/bootstrap_legacy_data.py` (`urlopen`, writes into `site-packages`) and notebook cells that call `pd.read_csv` or matplotlib.
+
+### Review testing
+
+- Prompt files exist and are non-empty:
+  - `python3 - <<'PY'\nfrom pathlib import Path\nfor path in ['prompts/pro-code-review.md', '.cursor/skills/pro-code-review/SKILL.md']:\n    text = Path(path).read_text()\n    assert 'Memory' in text and 'leak' in text.lower()\n    print(path, 'ok', len(text), 'chars')\nPY`
 
 ## Updating this skill
 
